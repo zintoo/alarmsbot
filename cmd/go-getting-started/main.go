@@ -1,7 +1,7 @@
 package main
 
 import (
-	"line/line-bot-sdk-go/linebot"
+	"linebot"
 	"log"
 	"net/http"
 	"os"
