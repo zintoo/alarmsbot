@@ -1,7 +1,7 @@
 package main
 
 import (
-	"linebot"
+	"line"
 	"log"
 	"net/http"
 	"os"
