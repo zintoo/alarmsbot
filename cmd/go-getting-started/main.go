@@ -38,7 +38,8 @@ func main() {
 	router.Use(gin.Logger())
 	router.LoadHTMLGlob("templates/*.tmpl.html")
 	router.Static("/static", "static")
-        router.HandleFunc("/callback",  func(w http.ResponseWriter, req *http.Request) {
+        router.POST("/callback",  func(c *gin.Context) {
+        	w http.ResponseWriter, req *http.Request
 		received, err := bot.ParseRequest(req)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
