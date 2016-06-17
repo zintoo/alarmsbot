@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"github.com/gin-gonic/gin"
 	"github.com/line"
 )
@@ -25,12 +26,12 @@ func main() {
 	// Setup bot client
 	channelID, err = strconv.ParseInt("1471157712", 10, 64)
 	if err != nil {
-		log.Print(err)
+		//log.Print(err)
 		return 1
 	}
 	bot, err := linebot.NewClient(channelID, channelSecret, channelMID)
 	if err != nil {
-		log.Print(err)
+		//log.Print(err)
 		return 1
 	}
 
@@ -56,7 +57,7 @@ func main() {
 				text, err := content.TextContent()
 				_, err = bot.SendText([]string{content.From}, text.Text)
 				if err != nil {
-					log.Print(err)
+					//log.Print(err)
 				}
 			}
 		}
