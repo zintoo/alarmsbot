@@ -27,12 +27,12 @@ func main() {
 	channelID, err = strconv.ParseInt("1471157712", 10, 64)
 	if err != nil {
 		//log.Print(err)
-		return 1
+		return //1
 	}
 	bot, err := linebot.NewClient(channelID, channelSecret, channelMID)
 	if err != nil {
 		//log.Print(err)
-		return 1
+		return //1
 	}
 
 	router := gin.New()
