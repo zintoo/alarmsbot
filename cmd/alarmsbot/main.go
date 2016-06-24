@@ -3,11 +3,18 @@ package main
 import (
 	"log"
 	"net/http"
+	"encoding/json"
+	"io/ioutil"
 	"os"
 	"strconv"
 	"github.com/gin-gonic/gin"
 	"github.com/line"
-)
+) 
+
+type Expression struct{
+      InputExpr string
+      SymbolExpr string
+}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -55,7 +62,18 @@ func main() {
 			content := result.Content()
 			if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 				text, err := content.TextContent()
-				_, err = bot.SendText([]string{content.From}, text.Text)
+                                res, _ := http.Get("http://122.154.148.234/expr/exp")
+                                defer res.Body.Close()
+                                // Read the content into a byte array
+                                body, err_json := ioutil.ReadAll(res.Body)
+                                if err_json != nil {
+                                    return 
+                                }
+                                
+                                var expr Expression
+                                err = json.Unmarshal(body, &expr)
+				//_, err = bot.SendText([]string{content.From}, text.Text)
+				_, err = bot.SendText([]string{content.From}, expr.SymbolExpr)
 				if err != nil {
 					//log.Print(err)
 				}
