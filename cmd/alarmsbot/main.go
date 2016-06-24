@@ -77,7 +77,7 @@ func main() {
 				if err != nil {
 					//log.Print(err)
 				}
-				_, err := bot.SendImage([]string{content.From}, "http://122.154.148.234/static/imgexprs/expr.png", "http://122.154.148.234/static/imgexprs/expr.png")
+				_, err = bot.SendImage([]string{content.From}, "http://122.154.148.234/static/imgexprs/expr.png", "http://122.154.148.234/static/imgexprs/expr.png")
 				if err != nil {
 					//log.Print(err)
 				}
