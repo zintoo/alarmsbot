@@ -62,7 +62,7 @@ func main() {
 			content := result.Content()
 			if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 				text, err := content.TextContent()
-                                res, _ := http.Get("http://122.154.148.234/expr/exp")
+                                res, _ := http.Get("http://122.154.148.234/expr/" + text.Text)
                                 defer res.Body.Close()
                                 // Read the content into a byte array
                                 body, err_json := ioutil.ReadAll(res.Body)
