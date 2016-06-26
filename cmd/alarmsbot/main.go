@@ -70,7 +70,7 @@ func main() {
 				text, err := content.TextContent()
 				url := "http://122.154.148.234/expr"
 				from := content.From
-				expr := text.Text
+				expr := text
 				m := Message{from, expr}
 				b, err := json.Marshal(m)
 				if err != nil {
