@@ -69,9 +69,7 @@ func main() {
 			if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 				text, err := content.TextContent()
 				url := "http://122.154.148.234/expr"
-				from := content.From
-				expr := text
-				m := Message{from, expr}
+				m := Message{content.From, text}
 				b, err := json.Marshal(m)
 				if err != nil {
 				   	return
