@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"log"
 	"net/http"
 	"encoding/json"
@@ -12,8 +13,13 @@ import (
 ) 
 
 type Expression struct{
-      InputExpr string
-      SymbolExpr string
+      	InputExpr string
+      	SymbolExpr string
+}
+
+type Message struct{
+	From string
+	MathExpr string
 }
 
 func main() {
@@ -62,25 +68,46 @@ func main() {
 			content := result.Content()
 			if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 				text, err := content.TextContent()
-                                res, _ := http.Get("http://122.154.148.234/expr/" + text.Text)
-                                defer res.Body.Close()
+				url := "http://122.154.148.234/expr"
+				from := content.From
+				expr := text.Text
+				m := Message{from, expr}
+				b, err := json.Marshal(m)
+				if err != nil {
+				   	return
+				}
+				req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
+				if err != nil {
+				   	return
+				}
+				req.Header.Set("Content-Type", "application/json")
+				client := &http.Client{}
+				resp, err := client.Do(req)
+				if err != nil {
+				   	return
+				}
+                                defer resp.Body.Close()
                                 // Read the content into a byte array
-                                body, err_json := ioutil.ReadAll(res.Body)
+                                body, err_json := ioutil.ReadAll(resp.Body)
                                 if err_json != nil {
-                                    return 
+                                    	return 
                                 }
                                 
                                 var expr Expression
                                 err = json.Unmarshal(body, &expr)
+                                if err_json != nil {
+                                    	return 
+                                }
 				//_, err = bot.SendText([]string{content.From}, text.Text)
 				_, err = bot.SendText([]string{content.From}, expr.SymbolExpr)
 				if err != nil {
-					//log.Print(err)
+					return
 				}
+				/*
 				_, err = bot.SendImage([]string{content.From}, "http://122.154.148.234/static/imgexprs/expr.png", "http://122.154.148.234/static/imgexprs/expr.png")
 				if err != nil {
 					//log.Print(err)
-				}
+				}*/
 				
 			}
 		}
